@@ -1,0 +1,19 @@
+<plugin name='clsetting' version='0.1' grailsVersion='1.1.1 &gt; *'>
+  <author>Jim Tanner</author>
+  <authorEmail>jtanner@clearleap.com</authorEmail>
+  <title>Clearleap Setting plugin</title>
+  <description>\
+Clearleap Setting plugin
+</description>
+  <documentation>http://grails.org/plugin/clsetting</documentation>
+  <resources>
+    <resource>BuildConfig</resource>
+    <resource>DataSource</resource>
+    <resource>UrlMappings</resource>
+    <resource>clsetting.SettingController</resource>
+    <resource>clsetting.Setting</resource>
+    <resource>clsetting.SettingService</resource>
+  </resources>
+  <dependencies />
+  <behavior />
+</plugin>

@@ -1,0 +1,16 @@
+<plugin name='clabout' version='0.1' grailsVersion='1.1.1 &gt; *'>
+  <author>Nick Panahi</author>
+  <authorEmail>npanahi@clearleap.com</authorEmail>
+  <title>ClAbout</title>
+  <description>Versioning and Build Info.</description>
+  <documentation>http://grails.org/Clabout+Plugin</documentation>
+  <resources>
+    <resource>Config</resource>
+    <resource>DataSource</resource>
+    <resource>UrlMappings</resource>
+    <resource>AboutController</resource>
+    <resource>AboutService</resource>
+  </resources>
+  <dependencies />
+  <behavior />
+</plugin>

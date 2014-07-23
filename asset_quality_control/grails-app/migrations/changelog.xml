@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet author="nick (generated)" id="1308260633630-1">
+        <createTable schemaName="public" tableName="asset">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="asset_pkey"/>
+            </column>
+            <column name="advisory" type="VARCHAR(255)"/>
+            <column name="asset_id" type="VARCHAR(255)"/>
+            <column name="asset_state" type="VARCHAR(255)"/>
+            <column name="central_id" type="int4"/>
+            <column name="create_date" type="timestamp"/>
+            <column name="episode" type="VARCHAR(255)"/>
+            <column name="media_id" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="qc_type" type="VARCHAR(255)"/>
+            <column name="rating" type="VARCHAR(255)"/>
+            <column name="runtime" type="int4"/>
+            <column name="short_title" type="VARCHAR(255)"/>
+            <column name="staged_directory_name" type="VARCHAR(255)"/>
+            <column name="start_date" type="timestamp"/>
+            <column name="end_date" type="timestamp"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="ingest_source_id" type="int4"/>
+            <column name="adixml" type="text"/>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="nick (generated)" id="1308260633630-2">
+        <createTable schemaName="public" tableName="content">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="content_pkey"/>
+            </column>
+            <column name="asset_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="audio_type" type="VARCHAR(255)"/>
+            <column name="central_id" type="int4"/>
+            <column name="checksum" type="VARCHAR(255)"/>
+            <column name="content_type" type="VARCHAR(255)"/>
+            <column name="data_service_xml" type="VARCHAR(5000)"/>
+            <column name="manzanitacgms" type="VARCHAR(255)"/>
+            <column name="manzanita_report" type="text"/>
+            <column name="manzanita_result" type="VARCHAR(255)"/>
+            <column name="manzanita_runtime" type="int4"/>
+            <column name="manzanitavchip" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="original" type="bool"/>
+            <column name="profile" type="VARCHAR(255)"/>
+            <column name="runtime" type="int4"/>
+            <column name="size" type="int8"/>
+            <column name="uri" type="VARCHAR(255)"/>
+            <column name="content_state" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="nick (generated)" id="1308260633630-3">
+        <createTable schemaName="public" tableName="setting">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="setting_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="nick (generated)" id="1308260633630-4">
+        <addUniqueConstraint columnNames="media_id"
+            constraintName="asset_media_id_key" schemaName="public" tableName="asset"/>
+    </changeSet>
+    <changeSet author="nick (generated)" id="1308260633630-5">
+        <addForeignKeyConstraint baseColumnNames="asset_id"
+            baseTableName="content" baseTableSchemaName="public"
+            constraintName="fk38b73479ed8b5b9a" deferrable="false"
+            initiallyDeferred="false" referencedColumnNames="id"
+            referencedTableName="asset" referencedTableSchemaName="public"/>
+    </changeSet>
+    <changeSet author="nick (generated)" id="1308260633630-6">
+        <createSequence schemaName="public" sequenceName="hibernate_sequence"/>
+    </changeSet>
+
+    <changeSet author="nick" id="clquality.1">
+        <addColumn tableName="asset">
+			<column name="has_previews" type="bool"/>
+		</addColumn>
+    </changeSet>
+
+    <changeSet author="nick" id="clquality.2">
+        <sql>
+            UPDATE content SET manzanita_result = 'PASSED' WHERE manzanita_result = '0';
+            UPDATE content SET manzanita_result = 'WARNINGS' WHERE manzanita_result = '1';
+			UPDATE content SET manzanita_result = 'FAILED' WHERE manzanita_result = '2';
+		</sql>
+    </changeSet>
+
+    <changeSet author="nick" id="clquality.3">
+        <addColumn tableName="content">
+            <column name="qc_result" type="VARCHAR(255)" defaultValue="NA"/>
+            <column name="qc_date" type="timestamp" defaultValueDate="2011-01-01 00:00:00"/>
+            <column name="staged_date" type="timestamp" defaultValueDate="2011-01-01 00:00:00"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="nick" id="clquality.4">
+        <addColumn tableName="asset">
+            <column name="cleanup_date" type="timestamp"/>
+        </addColumn>
+        <sql>
+            UPDATE asset SET asset_state = 'APPROVED', cleanup_date = '2011-09-01 00:00:00' WHERE asset_state = 'DELETED';
+        </sql>
+    </changeSet>
+
+    <changeSet author="nick" id="clquality.CL-5217">
+        <addColumn tableName="asset">
+            <column name="qc_level" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="jared" id="clquality.transfer.1">
+        <addColumn tableName="asset">
+            <column name="processor" type="VARCHAR(255)"/>
+            <column name="staged_date" type="timestamp"/>
+            <column name="transfer_start_date" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="jared" id="clquality.transfer.2">
+    	<createTable schemaName="public" tableName="transfer_manager">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="transfer_manager_pkey"/>
+            </column>
+            <column name="processor" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="processor_unique" />
+            </column>
+            <column name="active_thread_count" type="int4"/>
+            <column name="max_thread_count" type="int4"/>
+            <column name="state" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nick.panahi" id="cl-7050">
+        <addColumn tableName="content">
+            <column name="qc_complete" type="bool"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
