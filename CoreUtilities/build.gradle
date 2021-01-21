@@ -1,0 +1,37 @@
+apply plugin: 'java'
+
+test.useTestNG()
+
+repositories {
+    // Use 'jcenter' for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    //jcenter()
+    mavenLocal()
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+dependencies {
+
+    compile 'ch.qos.logback:logback-core:1.1.7'
+    compile 'ch.qos.logback:logback-classic:1.1.7'
+    compile 'ch.qos.logback:logback-core:1.1.7'
+
+    compile 'org.apache.httpcomponents:httpcore:4.4.4'
+    compile 'org.apache.httpcomponents:httpclient:4.5.2'
+
+    compile 'commons-io:commons-io:2.7'
+    compile 'commons-lang:commons-lang:2.6'
+    compile 'org.apache.commons:commons-lang3:3.11'
+    compile 'org.apache.commons:commons-compress:1.20'
+
+    compile 'commons-validator:commons-validator:1.6'
+
+    compile 'com.datastax.cassandra:cassandra-driver-core:3.1.0'
+    compile 'com.datastax.cassandra:cassandra-driver-mapping:3.1.0'
+
+    compile 'com.fasterxml.jackson.core:jackson-core:2.8.3'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.3'
+
+    testCompile 'org.testng:testng:6.8.1'
+
+}
