@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="FineFoods" version="1.5">
+    <types>
+        <fieldType name="long" class="solr.LongField"/>
+        <fieldType name="double" class="solr.DoubleField"/>
+        <fieldType name="int" class="solr.IntField"/>
+        <fieldType name="string" class="solr.StrField"/>
+        <fieldType name="date" class="solr.DateField"/>
+        <fieldType name="text" class="solr.TextField">
+            <analyzer>
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+        </fieldType>
+    </types>
+    <fields>
+        <field name="unique_id" type="string" indexed="true" stored="true" required="true"/>
+        <field name="product_id" type="string" indexed="true" stored="true" required="true"/>
+        <field name="user_id" type="string" indexed="true" stored="true" required="true"/>
+        <field name="profile_name" type="string" indexed="true" stored="true" required="true"/>
+        <field name="helpful" type="int" indexed="true" stored="true" required="true"/>
+        <field name="out_of" type="int" indexed="true" stored="true" required="true"/>
+        <field name="score" type="double" indexed="true" stored="true" required="true"/>
+        <field name="time" type="date" indexed="true" stored="true" required="true"/>
+        <field name="summary" type="string" indexed="true" stored="true"/>
+        <field name="text" type="text" indexed="true" stored="true"/>
+    </fields>
+    <uniqueKey>(unique_id, time)</uniqueKey>
+</schema>
