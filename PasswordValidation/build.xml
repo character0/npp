@@ -1,0 +1,90 @@
+<project name="PasswordValidation" default="jar">
+
+    <property name="project.name" value="PasswordValidation"/>
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="test.dir" value="${basedir}/test"/>
+    <property name="classes.dir" value="${basedir}/classes"/>
+    <property name="lib.dir" value="${basedir}/lib"/>
+    <property name="logs.dir" value="${basedir}/logs"/>
+    <property name="conf.dir" value="${basedir}/conf"/>
+    <property name="test.class.name" value="com.stormpath.validation.DefaultValidationServiceTest"/>
+
+    <path id="project.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="test.classpath">
+        <pathelement location="${classes.dir}" />
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef name="groovyc"
+             classname="org.codehaus.groovy.ant.Groovyc"
+             classpathref="project.classpath"/>
+
+    <taskdef name="groovy"
+             classname="org.codehaus.groovy.ant.Groovy"
+             classpathref="project.classpath"/>
+
+    <!-- =================================
+	          target: clean
+	         ================================= -->
+    <target name="clean" description="--> Cleans the PasswordValidation application">
+        <delete file="${lib.dir}/${project.name}.jar"/>
+        <delete dir="${classes.dir}" />
+        <delete>
+            <fileset dir="${logs.dir}" includes="**/*.log" />
+        </delete>
+
+    </target>
+
+    <!-- =================================
+	          target: compile
+	         ================================= -->
+    <target name="compile" depends="clean" description="--> Compiles the PasswordValidation application">
+        <mkdir dir="${classes.dir}" />
+        <groovyc srcdir="${src.dir}" destdir="${classes.dir}" classpathref="project.classpath">
+            <javac debug="on"/>
+        </groovyc>
+    </target>
+
+    <!-- =================================
+            target: compile-test
+            ================================= -->
+    <target name="compile-test" depends="clean, compile" description="--> Compiles the unit tests for the PasswordValidation application">
+        <groovyc srcdir="${test.dir}" destdir="${classes.dir}" classpathref="test.classpath" />
+    </target>
+
+    <!-- =================================
+               target: test
+              ================================= -->
+    <target name="test" depends="compile-test" description="--> Runs the unit test for the PasswordValidation application">
+        <junit haltonfailure="no" haltonerror="yes" fork="yes">
+            <test name="${test.class.name}" />
+            <formatter type="plain" usefile="false" />
+            <classpath refid="test.classpath" />
+        </junit>
+    </target>
+
+    <!-- =================================
+               target: run
+              ================================= -->
+    <target name="run" depends="jar" description="--> ">
+        <groovy src="${test.dir}/Stormpath.groovy" classpathref="project.classpath">
+        </groovy>
+    </target>
+
+    <!-- =================================
+               target: jar
+              ================================= -->
+    <target name="jar" depends="compile"
+            description="--> Creates a jar of the PasswordValidation">
+        <jar jarfile="${lib.dir}/${project.name}.jar" basedir="${classes.dir}"/>
+        <copy todir="lib" file="lib/PasswordValidation.jar"/>
+    </target>
+
+</project>

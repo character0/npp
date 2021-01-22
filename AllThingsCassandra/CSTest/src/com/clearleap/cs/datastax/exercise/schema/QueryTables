@@ -1,0 +1,23 @@
+1)
+
+#Create a query table for all airport codes. Should include airport ID and/or name and departure time. Insertion maintains
+order. Can insert by DEP_TIME to keep sorted or create composite key and order on that.
+
+CREATE TABLE allFlightsForATL (
+      ORIGIN_AIRPORT_ID int,
+      DEP_TIME timestamp;
+      PRIMARY KEY (ORIGIN_AIRPORT_ID, DEP_TIME)
+) with clustering order by (DEP_TIME asc)
+
+2)
+
+CREATE TABLE flightsInNext10Minutes (
+      AIR_TIME int PRIMARY KEY,
+      CARRIER varchar,
+      ORIGIN varchar,
+      DEST varchar,
+);
+
+#Use getSlice() to pull 10 minute buckets of AIR_TIME.
+
+

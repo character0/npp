@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/guice-3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aopalliance-alpha1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.inject.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/PasswordValidation.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
